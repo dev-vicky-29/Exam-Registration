@@ -11,6 +11,7 @@
       justify-content: center;
       align-items: center;
       background-color: #f8f9fa;
+      height: 100vh;
     }
     .login-form {
       max-width: 500px;
@@ -41,9 +42,25 @@
   <script>
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      // Implement authentication logic here
-      alert('Login successful!');
-      window.location.href = 'dashboard.html'; // Redirect to dashboard
+
+      // Get stored student data from localStorage
+      const storedData = JSON.parse(localStorage.getItem('studentData'));
+      if (!storedData) {
+        alert("No registered user found.");
+        return;
+      }
+
+      // Get user input values
+      const loginUser = document.getElementById('loginUser').value;
+      const loginPassword = document.getElementById('loginPassword').value;
+
+      // Check if the entered username/email and password match the stored data
+      if ((storedData.username === loginUser || storedData.email === loginUser) && storedData.password === loginPassword) {
+        alert('Login successful!');
+        window.location.href = 'dashboard.html'; // Redirect to dashboard
+      } else {
+        alert('Invalid username or password!');
+      }
     });
   </script>
 </body>
